@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Szenario 5: Entscheidung zur vollständigen Isolation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Szenario 5: Entscheidung zur vollständigen Isolation</h1>
+  </header>
+  <main>
+    <p>Trotz eingeleiteter Maßnahmen breitet sich die Ransomware im CAS-Netzwerk weiter aus. Mindestens drei weitere VLANs zeigen Infektionsanzeichen. Ein vollständiger Air Gap zur physischen und logischen Trennung ist vorbereitet – würde aber einen Produktionsstopp von bis zu 48 Stunden nach sich ziehen.</p>
+    <div id="options">
+      <div class="option" onclick="selectOption('A')">A) Standort CAS vollständig vom Netz trennen – Ausbreitung stoppen</div>
+      <div class="option" onclick="selectOption('B')">B) Nur betroffene Netzsegmente trennen – Produktion eingeschränkt fortführen</div>
+      <div class="option" onclick="selectOption('C')">C) Entscheidung ans C-Level eskalieren – Air Gap vorbereiten</div>
+      <div class="option" onclick="selectOption('D')">D) Air Gap nur im Fall eines AD-Gesamtausfalls aktivieren</div>
+    </div>
+    <label for="explanation">Warum hat Ihr Team diese Maßnahme gewählt?</label>
+    <textarea id="explanation" placeholder="Kurze Begründung eingeben..."></textarea>
+    <div id="feedback" class="feedback" style="display:none;"></div>
+    <button onclick="submitDecision()">Entscheidung abschließen</button>
+    <button onclick="window.location.href='index.html'">Zurück zur Übersicht</button>
+  </main>
+  <script>
+    const scenarioId = "scenario5";
+  </script>
+  <script src="js/logic.js"></script>
+</body>
+</html>

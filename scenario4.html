@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Szenario 4: Active Directory unter aktiver Beeinträchtigung</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Szenario 4: Active Directory unter aktiver Beeinträchtigung</h1>
+  </header>
+  <main>
+    <p>Das zentrale Active Directory-System des Standorts CAS zeigt deutliche Auffälligkeiten: erhöhte Antwortzeiten, Authentifizierungsprobleme und Prozessaktivitäten mit hohem Ressourcenverbrauch. Ein forensischer Snapshot deutet auf erste Verschlüsselungsprozesse hin. Das System ist geschäftskritisch – ein Ausfall hätte massive Auswirkungen.</p>
+    <div id="options">
+      <div class="option" onclick="selectOption('A')">A) AD-Server isolieren, Notauthentifizierung aktivieren und Failover vorbereiten</div>
+      <div class="option" onclick="selectOption('B')">B) Backups prüfen und kontrollierten Systemwechsel vorbereiten</div>
+      <div class="option" onclick="selectOption('C')">C) System weiterlaufen lassen – M365 funktioniert stabil</div>
+      <div class="option" onclick="selectOption('D')">D) Situation erfassen, Entscheidung an C-Level eskalieren</div>
+    </div>
+    <label for="explanation">Warum hat Ihr Team diese Maßnahme gewählt?</label>
+    <textarea id="explanation" placeholder="Kurze Begründung eingeben..."></textarea>
+    <div id="feedback" class="feedback" style="display:none;"></div>
+    <button onclick="submitDecision()">Entscheidung abschließen</button>
+    <button onclick="window.location.href='index.html'">Zurück zur Übersicht</button>
+  </main>
+  <script>
+    const scenarioId = "scenario4";
+  </script>
+  <script src="js/logic.js"></script>
+</body>
+</html>

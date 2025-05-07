@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Szenario 1 – CAS Containment Simulation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Szenario 1: Erstes verschlüsseltes System</h1>
+  </header>
+  <main>
+    <p>Ein Arbeitsplatzsystem im Produktionsnetzwerk von CAS ist vollständig verschlüsselt. Das System ist nicht mehr bedienbar; der Bildschirm zeigt nach einem automatischen Neustart nur noch einen schwarzen Hintergrund mit blinkendem Cursor. Die Verschlüsselungsstruktur entspricht dem bekannten Verhalten der ALPHV-Ransomware. Der betroffene Host war AD-angebunden und hatte Zugriff auf produktionsnahe Systeme. Microsoft 365-Dienste funktionieren weiterhin.</p>
+
+    <div id="options">
+      <div class="option" onclick="selectOption('A')">A) System sofort isolieren, RAM sichern und forensisch erfassen</div>
+      <div class="option" onclick="selectOption('B')">B) System unter Beobachtung belassen – keine Maßnahme ohne weiteren Befund</div>
+      <div class="option" onclick="selectOption('C')">C) EDR-Containment auf alle Systeme dieser Benutzergruppe anwenden</div>
+      <div class="option" onclick="selectOption('D')">D) Keine operativen Maßnahmen – Beobachtung fortsetzen</div>
+    </div>
+
+    <label for="explanation">Warum hat Ihr Team diese Maßnahme gewählt?</label>
+    <textarea id="explanation" placeholder="Kurze Begründung eingeben..."></textarea>
+
+    <div id="feedback" class="feedback" style="display:none;"></div>
+
+    <button onclick="submitDecision()">Entscheidung abschließen</button>
+    <button onclick="window.location.href='index.html'">Zurück zur Übersicht</button>
+  </main>
+  <script src="js/logic.js"></script>
+</body>
+</html>
