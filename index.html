@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Containment-Simulation – CAS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <header><h1>Containment-Simulation: ALPHV – Standort CAS</h1></header>
+  <main>
+    <section id="intro">
+      <h2>Willkommen zur Simulation</h2>
+      <p>Diese App simuliert fünf Entscheidungssituationen im Rahmen eines Ransomware-Vorfalls am Standort CAS. Treffen Sie fundierte Containment-Entscheidungen, geben Sie Ihre Begründung an und erhalten Sie eine strategische Bewertung inklusive PDF-Auswertung.</p>
+      <button onclick="startSimulation()">Simulation starten</button>
+    </section>
+
+    <section id="scenario" style="display:none;"></section>
+
+    <section id="summary" style="display:none;">
+      <h2>Ihre Auswertung</h2>
+      <div id="summaryContent"></div>
+      <button onclick="generatePDF()">📄 PDF exportieren</button>
+    </section>
+  </main>
+  <script src="logic.js"></script>
+</body>
+</html>
