@@ -1,6 +1,5 @@
 const { jsPDF } = window.jspdf;
 
-// ✅ ALLE 5 SZENARIEN HIER DEFINIERT
 const data = [
   {
     title: "Standort CAS: Erstes verschlüsseltes System im Produktionsnetz",
@@ -133,5 +132,4 @@ function generatePDF() {
   });
   doc.save('Containment-Ergebnis.pdf');
 }
-
 
