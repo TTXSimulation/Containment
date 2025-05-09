@@ -16,6 +16,7 @@ Im Zuge der laufenden ALPHV-Aktivitäten wurden im CAS-Netzwerk weitere verdäch
 
 Ein geplanter Job zur Synchronisierung zwischen einem QS-Testsystem (VLAN 88) und dem produktiven CAS-GUS-System (VLAN 80) wurde dabei zum Einfallstor: Das Dienstkonto svc_sync_gus verfügte über weitreichende Lese- und Schreibrechte – auch auf Produktionsverzeichnisse.
 
+
 🧨 ALPHV-Taktik:
 Die Ransomware nutzte PowerShell-Remoting aus VLAN 88 heraus, um per gültigem Token Zugriff auf den CAS-GUS-Produktivserver zu erhalten. In mehreren Systemverzeichnissen wurden sensible Produktionsdaten verschlüsselt. Zusätzlich wurde eine Datei INFRA-LOCK-ALERT.txt abgelegt, die auf eine vollständige Kompromittierung der Logistikapplikation hinweist.`
   },
@@ -26,6 +27,7 @@ Während sich das Incident-Response-Team auf die Wiederherstellung der CAS-Produ
 
 Ein Zugriff über das Notebook eines Technikers (lokal über VLAN 2) wurde festgestellt, der laut Logfiles eine Admin-Session auf dem zentralen CAS-Core-Switch (MGMT-CAS-SW01) gestartet hat – mit einer Session-ID, die bereits 4 Stunden zuvor erzeugt wurde. Verdacht: Session-Hijacking durch ein zuvor abgegriffenes Token oder unzureichend geschützte Management-Zugänge.
 
+
 🧨 ALPHV-Taktik:
 Die Angreifer hatten es gezielt auf persistente Kontrolle über das Netzwerkmanagement abgesehen. Sie konfigurierten temporäre statische Routen, um Datenverkehr unbemerkt über ein internes Tool-System (VLAN 76) umzuleiten, bevor die Exfiltration erfolgte. Zusätzlich wurde ein Firmware-Dump der Backup-Firewall durchgeführt und über eine verschlüsselte Verbindung nach außen übertragen.`
   },
@@ -35,6 +37,7 @@ Die Angreifer hatten es gezielt auf persistente Kontrolle über das Netzwerkmana
 Nach der partiellen Wiederherstellung der internen Produktionsserver (CAS-APP-01, CAS-DB-01), werden neue EDR-Warnungen gemeldet: Ein Zugriff auf ein internes Backup-Verzeichnis erfolgt aus einem IP-Adressbereich der VPN-Zone (Standort-ID 254). Der Traffic stammt laut Reverse-Proxy-Log von einer SSL-VPN-Verbindung, die sich korrekt authentifiziert hat – angeblich durch einen User der Gruppe „Support-CAS“.
 
 Ein Mitarbeiter, der an diesem Tag eigentlich keinen VPN-Zugang benötigt hätte, meldet sich, dass sein privates Gerät ungewöhnlich langsam läuft – der Hostname passt zu dem VPN-Zugriff.
+
 
 🧨 ALPHV-Taktik:
 Die Angreifer hatten offenbar bereits vor der Verschlüsselung ein gültiges Userzertifikat oder VPN-Token abgegriffen. Über die offene VPN-Zone mit VLAN-Zugriff auf CAS-interne Systeme wurde ein zweiter, versteckter Angriffsvektor aufgebaut.
