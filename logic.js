@@ -16,7 +16,6 @@ Im Zuge der laufenden ALPHV-Aktivitäten wurden im CAS-Netzwerk weitere verdäch
 
 Ein geplanter Job zur Synchronisierung zwischen einem QS-Testsystem (VLAN 88) und dem produktiven CAS-GUS-System (VLAN 80) wurde dabei zum Einfallstor: Das Dienstkonto svc_sync_gus verfügte über weitreichende Lese- und Schreibrechte – auch auf Produktionsverzeichnisse.
 
-
 🧨 ALPHV-Taktik:
 Die Ransomware nutzte PowerShell-Remoting aus VLAN 88 heraus, um per gültigem Token Zugriff auf den CAS-GUS-Produktivserver zu erhalten. In mehreren Systemverzeichnissen wurden sensible Produktionsdaten verschlüsselt. Zusätzlich wurde eine Datei INFRA-LOCK-ALERT.txt abgelegt, die auf eine vollständige Kompromittierung der Logistikapplikation hinweist.`
   },
@@ -26,7 +25,6 @@ Die Ransomware nutzte PowerShell-Remoting aus VLAN 88 heraus, um per gültigem T
 Während sich das Incident-Response-Team auf die Wiederherstellung der CAS-Produktionssysteme konzentriert, registriert das zentrale Monitoring auffällige Zugriffe auf IP-Adressen im Bereich des Management-Netzwerks (VLAN 188). Dort befinden sich Interfaces zur Fernwartung der Netzwerkinfrastruktur des Standorts CAS (Switches, Firewalls, Hypervisoren).
 
 Ein Zugriff über das Notebook eines Technikers (lokal über VLAN 2) wurde festgestellt, der laut Logfiles eine Admin-Session auf dem zentralen CAS-Core-Switch (MGMT-CAS-SW01) gestartet hat – mit einer Session-ID, die bereits 4 Stunden zuvor erzeugt wurde. Verdacht: Session-Hijacking durch ein zuvor abgegriffenes Token oder unzureichend geschützte Management-Zugänge.
-
 
 🧨 ALPHV-Taktik:
 Die Angreifer hatten es gezielt auf persistente Kontrolle über das Netzwerkmanagement abgesehen. Sie konfigurierten temporäre statische Routen, um Datenverkehr unbemerkt über ein internes Tool-System (VLAN 76) umzuleiten, bevor die Exfiltration erfolgte. Zusätzlich wurde ein Firmware-Dump der Backup-Firewall durchgeführt und über eine verschlüsselte Verbindung nach außen übertragen.`
@@ -38,16 +36,15 @@ Nach der partiellen Wiederherstellung der internen Produktionsserver (CAS-APP-01
 
 Ein Mitarbeiter, der an diesem Tag eigentlich keinen VPN-Zugang benötigt hätte, meldet sich, dass sein privates Gerät ungewöhnlich langsam läuft – der Hostname passt zu dem VPN-Zugriff.
 
-
 🧨 ALPHV-Taktik:
 Die Angreifer hatten offenbar bereits vor der Verschlüsselung ein gültiges Userzertifikat oder VPN-Token abgegriffen. Über die offene VPN-Zone mit VLAN-Zugriff auf CAS-interne Systeme wurde ein zweiter, versteckter Angriffsvektor aufgebaut.
-Sie nutzten das System als Brückenkopf für Datensynchronisation (SMB-Zugriffe auf \\CAS-DB-01\PreStaging) sowie für Reconnaissance im Bereich der Produktionslogistik (VLAN 30 – Lagernetz).`
+Sie nutzten das System als Brückenkopf für Datensynchronisation (SMB-Zugriffe auf \\\\CAS-DB-01\\PreStaging) sowie für Reconnaissance im Bereich der Produktionslogistik (VLAN 30 – Lagernetz).`
   },
   {
     title: "Zweiter versteckter Angriffsvektor über VPN-Zone",
     text: `📌 Ausgangslage:
 Die Angreifer hatten offenbar bereits vor der Verschlüsselung ein gültiges Userzertifikat oder VPN-Token abgegriffen. Über die offene VPN-Zone mit VLAN-Zugriff auf CAS-interne Systeme wurde ein zweiter, versteckter Angriffsvektor aufgebaut.
-Sie nutzten das System als Brückenkopf für Datensynchronisation (SMB-Zugriffe auf \\CAS-DB-01\PreStaging) sowie für Reconnaissance im Bereich der Produktionslogistik (VLAN 30 – Lagernetz).`
+Sie nutzten das System als Brückenkopf für Datensynchronisation (SMB-Zugriffe auf \\\\CAS-DB-01\\PreStaging) sowie für Reconnaissance im Bereich der Produktionslogistik (VLAN 30 – Lagernetz).`
   }
 ];
 
@@ -63,12 +60,34 @@ function startSimulation() {
 function renderScenario() {
   const s = data[current];
   const container = document.getElementById('scenario');
-  container.innerHTML = `<h2>${s.title}</h2><p>${s.text}</p>`;
 
+  // Text aufteilen: zuerst Ausgangslage, dann ggf. Angriffsteil
+  const parts = s.text.split(/\n\n(⚠️|🧨)/);
+
+  container.innerHTML = `<h2>${s.title}</h2>`;
+
+  // Ausgangslage
+  const baseText = document.createElement('p');
+  baseText.textContent = parts[0].trim();
+  container.appendChild(baseText);
+
+  // Angriffsteil, falls vorhanden
+  if (parts.length >= 3) {
+    const label = parts[1];
+    const attackText = parts[2];
+
+    const attackDiv = document.createElement('div');
+    attackDiv.style.marginTop = '20px';
+    attackDiv.innerHTML = `<strong>${label}</strong><p>${attackText.trim()}</p>`;
+    container.appendChild(attackDiv);
+  }
+
+  // Texteingabe
   const textarea = document.createElement('textarea');
   textarea.placeholder = 'Ihre Einschätzung oder Maßnahme...';
   container.appendChild(textarea);
 
+  // Weiter-Button
   const confirm = document.createElement('button');
   confirm.textContent = 'Antwort bestätigen';
   confirm.onclick = () => {
@@ -91,14 +110,14 @@ function showSummary() {
 
   const summaryDiv = document.getElementById('summaryContent');
   summaryDiv.innerHTML = `<h3>Strategische Bewertung</h3><p>Ihre Antworten zu den Szenarien:</p><hr>` +
-    answers.map((a, i) => `<p><strong>Szenario ${i+1}</strong><br>Antwort: ${a.answer}</p>`).join('');
+    answers.map((a, i) => `<p><strong>Szenario ${i + 1}</strong><br>Antwort: ${a.answer}</p>`).join('');
 }
 
 function generatePDF() {
   const doc = new jsPDF();
   let y = 10;
   answers.forEach((a, i) => {
-    doc.text(`Szenario ${i+1}:`, 10, y); y += 10;
+    doc.text(`Szenario ${i + 1}:`, 10, y); y += 10;
     doc.text(`Antwort: ${a.answer}`, 10, y); y += 20;
   });
   doc.save('Containment-Ergebnis.pdf');
